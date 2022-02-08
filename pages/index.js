@@ -1,7 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Web3Modal from "web3modal";
-import { providers, Contract } from "ethers";
+import { providers, Contract, utils as ethersUtils } from "ethers";
 import { useEffect, useRef, useState } from "react";
 import { WHITELIST_CONTRACT_ADDRESS, abi } from "../constants";
 
@@ -94,7 +94,7 @@ export default function Home() {
       );
       // call the numAddressesWhitelisted from the contract
       const _numberOfWhitelisted = await whitelistContract.numWhitelistAddress();
-      setNumberOfWhitelisted(_numberOfWhitelisted);
+      setNumberOfWhitelisted(ethersUtils.formatUnits(_numberOfWhitelisted, 0));
     } catch (err) {
       console.error(err);
     }
@@ -117,7 +117,7 @@ export default function Home() {
       // Get the address associated to the signer which is connected to  MetaMask
       const address = await signer.getAddress();
       // call the whitelistedAddresses from the contract
-      const _joinedWhitelist = await whitelistContract.wwhiteListAddress(
+      const _joinedWhitelist = await whitelistContract.whiteListAddress(
         address
       );
       setJoinedWhitelist(_joinedWhitelist);
